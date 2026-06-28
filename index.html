@@ -1650,45 +1650,71 @@ function generateStory(c) {
   const cantonName = CANTON_NAMES[c.canton] || c.canton;
   const cantonDesc = CANTON_DESCS[c.canton] || `im Kanton ${cantonName}`;
 
-  // Hero-Element basierend auf Größe
-  let sizeWord;
-  if(c.pop < 200) sizeWord = "Mini-Weiler";
-  else if(c.pop < 500) sizeWord = "stilles Bergdorf";
-  else if(c.pop < 1500) sizeWord = "kleines Dorf";
-  else if(c.pop < 5000) sizeWord = "übersichtliche Gemeinde";
-  else if(c.pop < 15000) sizeWord = "lebendiges Städtchen";
-  else sizeWord = "Stadt";
+  // Größen-Kategorisierung
+  let sizeWord, sizeEmoji;
+  if(c.pop < 200) { sizeWord = "Mini-Weiler"; sizeEmoji = "🏘️"; }
+  else if(c.pop < 500) { sizeWord = "stilles Bergdorf"; sizeEmoji = "🏔️"; }
+  else if(c.pop < 1500) { sizeWord = "kleines Dorf"; sizeEmoji = "🏞️"; }
+  else if(c.pop < 5000) { sizeWord = "übersichtliche Gemeinde"; sizeEmoji = "🏘️"; }
+  else if(c.pop < 15000) { sizeWord = "lebendiges Städtchen"; sizeEmoji = "🏘️"; }
+  else { sizeWord = "Stadt"; sizeEmoji = "🏙️"; }
 
-  // Höhen-Element
-  let eleDesc = "";
-  if(c.elev > 1500) eleDesc = `auf ${c.elev}m Höhe, hoch über dem Alltag`;
-  else if(c.elev > 900) eleDesc = `auf ${c.elev}m – Bergluft inklusive`;
-  else if(c.elev > 600) eleDesc = `auf ${c.elev}m, mit Aussicht`;
-  else eleDesc = `auf ${c.elev}m`;
+  // Höhenbeschreibung
+  let eleDesc, eleEmoji;
+  if(c.elev > 1500) { eleEmoji = "🏔️"; eleDesc = `auf ${c.elev}m – Bergluft pur`; }
+  else if(c.elev > 900) { eleEmoji = "⛰️"; eleDesc = `auf ${c.elev}m – Bergluft inklusive`; }
+  else if(c.elev > 600) { eleEmoji = "🌄"; eleDesc = `auf ${c.elev}m – mit Aussicht`; }
+  else { eleEmoji = "🌍"; eleDesc = `auf ${c.elev}m – flach & zugänglich`; }
 
-  // Charakterzug basierend auf Kategorien
+  // Charaktere basierend auf Kategorien
   const traits = [];
-  if(cats.includes("see")) traits.push("am Wasser");
-  if(cats.includes("berge")) traits.push("zwischen Gipfeln");
-  if(cats.includes("wald")) traits.push("waldumringt");
-  if(cats.includes("weinberg")) traits.push("zwischen Reben");
-  if(cats.includes("burg")) traits.push("mit historischen Mauern");
-  if(cats.includes("kloster")) traits.push("klösterlich-ruhig");
-  if(cats.includes("fluss")) traits.push("flussnah");
-  if(cats.includes("kultur")) traits.push("kulturträchtig");
+  if(cats.includes("see")) traits.push("🌊 am Wasser");
+  if(cats.includes("berge")) traits.push("⛰️ zwischen Gipfeln");
+  if(cats.includes("wald")) traits.push("🌲 waldumringt");
+  if(cats.includes("weinberg")) traits.push("🍷 zwischen Reben");
+  if(cats.includes("burg")) traits.push("🏰 mit historischen Mauern");
+  if(cats.includes("kloster")) traits.push("⛪ klösterlich-ruhig");
+  if(cats.includes("fluss")) traits.push("🏞️ flussnah");
+  if(cats.includes("kultur")) traits.push("🎭 kulturträchtig");
+  if(cats.includes("thermalbad")) traits.push("♨️ Thermalbad-Glück");
   const trait = traits.length ? `, ${traits[0]}` : "";
 
-  // Empfehlung wieso es sich lohnt
-  let why;
-  if(c.pop < 500) why = "Hier ist die Schweiz noch unaufgeregt – keine Reisegruppen, keine Selfie-Sticks.";
-  else if(c.pop < 2000) why = "Ein Ort, der nicht im Reiseführer steht – aber sollte.";
-  else if(cats.includes("berge")) why = "Berge ohne Andrang, Stille ohne Anstrengung.";
-  else if(cats.includes("see")) why = "Seeufer ohne Selfie-Bombardement.";
-  else if(cats.includes("kultur")) why = "Geschichte ohne Eintrittsschlange.";
-  else why = "Vom Tourismus-Radar verschwunden – zu Unrecht.";
+  // Distanz-Info wenn Standort gesetzt
+  let distInfo = "";
+  if(userLoc) {
+    const dist = Math.round(haversineKm(userLoc.lat, userLoc.lng, c.lat, c.lng));
+    distInfo = ` (nur ${dist} km weg!)`;
+  }
 
-  return `<em>${c.name}</em>${trait} – ${sizeWord} ${cantonDesc}, ${eleDesc}. ${why}`;
+  // Dynamische "Warum"-Aussagen: Überzeugungsarbeit
+  let why;
+  const isUndiscovered = c.pop < 500;
+  const isNature = cats.includes("berge") || cats.includes("wald");
+  const isWater = cats.includes("see");
+  const isCulture = cats.includes("kultur") || cats.includes("burg") || cats.includes("kloster");
+
+  if(isUndiscovered && isNature) {
+    why = "🎯 Hier trifft Abenteuer auf Ruhe – unentdeckt & unverbaut.";
+  } else if(isUndiscovered && isWater) {
+    why = "💎 Geheim-Strand ohne Selfie-Sticks. Pure Schweiz.";
+  } else if(isUndiscovered) {
+    why = "✨ Nicht im Reiseführer – aber sollte es sein!";
+  } else if(isNature && isWater) {
+    why = "🏕️ Bergsee-Magie ohne Touristenmassen.";
+  } else if(isNature) {
+    why = "🥾 Wandern ohne Andrang. Sonne statt Selfies.";
+  } else if(isWater) {
+    why = "🌊 Seeufer-Idylle ohne Strandbelegung.";
+  } else if(isCulture) {
+    why = "🏛️ Geschichte erzählen – ganz private Führung.";
+  } else {
+    why = "🌟 Vom Tourismus-Radar verschwunden – zu Unrecht!";
+  }
+
+  // Finale Story
+  return `<em>${c.name}</em>${trait} – ${sizeWord} ${cantonDesc}, ${eleEmoji} ${eleDesc}${distInfo}. ${why}`;
 }
+
 
 // ═══════════════════════════════════════════════════════
 // ANTI-HOTSPOT ALGORITHM + PERSONA SOFT-BOOST
