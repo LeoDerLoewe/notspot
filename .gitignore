@@ -1,0 +1,39 @@
+# Dependencies & Build
+node_modules/
+dist/
+build/
+*.lock
+package-lock.json
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Backups & Temp
+*.backup-*
+*.bak
+*.tmp
+.claude/
+
+# Sensitive
+.env
+.env.local
+secrets.json
+credentials.json
+
+# Cache
+*.pyc
+__pycache__/
+.pytest_cache/
+
+# Logs
+*.log
+npm-debug.log
+
+# OS
+Thumbs.db
+.DS_Store
