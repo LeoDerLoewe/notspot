@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 56">
+  <defs>
+    <linearGradient id="pg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF5B47"/>
+      <stop offset="100%" style="stop-color:#FF3030"/>
+    </linearGradient>
+    <clipPath id="cbox">
+      <rect x="2" y="6" width="44" height="44" rx="10"/>
+    </clipPath>
+  </defs>
+  <rect x="2" y="6" width="44" height="44" rx="10" fill="#FFFFFF" stroke="#1A1B3A" stroke-width="2.5"/>
+  <g clip-path="url(#cbox)">
+    <path d="M 4 50 L 4 32 L 14 24 L 20 30 L 24 22 L 44 50 Z" fill="#A8E6CF" opacity="0.7"/>
+    <path d="M 8 50 L 22 14 L 32 28 L 38 22 L 44 50 Z" fill="url(#pg)" stroke="#1A1B3A" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M 22 14 L 19 22 L 25 22 Z" fill="#FFFFFF"/>
+    <circle cx="34" cy="34" r="3.5" fill="#FFFFFF" stroke="#1A1B3A" stroke-width="1.8"/>
+  </g>
+  <rect x="2" y="6" width="44" height="44" rx="10" fill="none" stroke="#1A1B3A" stroke-width="2.5"/>
+  <text x="56" y="36" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-weight="900" font-style="italic" fill="#FF5B47" letter-spacing="-0.5">Not</text>
+  <text x="104" y="36" font-family="'Helvetica Neue', Helvetica, Arial Black, sans-serif" font-size="26" font-weight="900" fill="#1A1B3A" letter-spacing="-0.8">Spot</text>
+</svg>
