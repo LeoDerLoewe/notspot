@@ -291,10 +291,14 @@ def categorize_commune(c):
             tags.add("berge")
 
     lake_cantons = {
-        "ZH": "zürichsee",
-        "TI": ["lugano", "locarno"],
-        "VD": ["genève", "lausanne", "montreux"],
-        "GE": "genève"
+        "ZH": ["zürichsee", "see", "glatt", "sihl"],
+        "TI": ["lugano", "locarno", "verbano", "langensee"],
+        "VD": ["genève", "lausanne", "montreux", "leman"],
+        "GE": "genève",
+        "BE": ["thun", "bern", "brienz", "jungfrau"],
+        "LU": ["vierwaldstätter", "luzern", "rotensee"],
+        "GL": ["klontal", "schwändi"],
+        "SG": ["säntis", "appenzell", "bodensee"],
     }
 
     for lake_c, hints in lake_cantons.items():
@@ -306,11 +310,13 @@ def categorize_commune(c):
 
     # === NAME PATTERN MATCHING ===
     name_patterns = {
-        "wald": ["wald", "wil", "forest"],
-        "see": ["see", "lac", "sø", "lake"],
-        "thermalbad": ["bad", "bain", "thermal"],
-        "fluss": ["fluss", "bach", "river"],
-        "kultur": ["burg", "schloss", "kloster", "museum"],
+        "wald": ["wald", "wil", "forest", "forêt"],
+        "see": ["see", "lac", "sø", "lake", "seeli"],
+        "thermalbad": ["bad", "bain", "thermal", "therme"],
+        "fluss": ["fluss", "bach", "river", "rivière", "reuß", "limmat", "aare", "rhein", "rhone"],
+        "kultur": ["burg", "schloss", "kloster", "museum", "kapelle", "kirche"],
+        "berge": ["berg", "spitz", "horn", "pass", "joch", "höhe", "grat", "alp"],
+        "land": ["dorf", "hof", "weiler"],
     }
 
     for cat, patterns in name_patterns.items():
